@@ -1,0 +1,44 @@
+{
+    "name": "Kite",
+    "description": "The smart copilot for programmers, now available for Python at https:\/\/t.co\/lCHRd1DsPm .",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/19785-kite.jpg",
+    "tags": [
+        "api service provider",
+        "have api"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/kite\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "Kite",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/19785-kite.jpg",
+            "humanURL": "https:\/\/kite.com",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-postman-collecction",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/kite-postman-collection.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/kite-com"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/kitehq"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/kite.com"
+        }
+    ]
+}
