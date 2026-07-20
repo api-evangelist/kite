@@ -1,0 +1,99 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+docs:
+- https://docs.gokite.ai/kite-agent-passport/cli-reference
+- https://docs.gokite.ai/changelog/2026/2026-06-04-backend-v1-3-0
+- https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+derivation_note: >-
+  Derived by reading the published docs, not from an OpenAPI securitySchemes block - Kite publishes no
+  OpenAPI (its API Reference page is an explicit "Coming soon" placeholder). derive-authentication.py
+  would yield nothing for this repo.
+summary:
+  types: [passkey, email-otp, oauth2, signed-authorization, delegated-session]
+  human_principal: passkey (WebAuthn) with email one-time code and email magic-link enrollment
+  agent_principal: delegated spending session bound to caps, TTL, assets, and payment protocol
+  value_transfer: EIP-3009 / x402 signed payment authorizations
+  api_key_in: []
+  oauth2_flows: [authorization_code]
+schemes:
+- name: email-signup-verification
+  type: email-link
+  description: Signup sends an email verification link; the client polls for completion then exchanges a
+    signup id plus exchange token for credentials.
+  commands:
+  - kpass signup init --email <EMAIL>
+  - kpass signup poll --signup-id <SIGNUP_ID> --wait
+  - kpass signup exchange --signup-id <SIGNUP_ID> --exchange-token <TOKEN>
+  source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+- name: email-otp-login
+  type: otp
+  description: Login sends an 8-character one-time code by email, verified against a login id.
+  commands:
+  - kpass login init --email <EMAIL>
+  - kpass login verify --login-id <LOGIN_ID> --code <OTP_CODE>
+  source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+- name: passkey
+  type: webauthn
+  description: >-
+    Passkeys are the primary human authenticator. Sensitive actions - sending funds, approving agent
+    sessions, adding or removing passkeys - require action-bound step-up re-confirmation. Account
+    recovery runs over email with a one-click cancel link, passkey changes trigger email notifications,
+    passkeys carry device names, and a first-passkey risk hold applies on enrollment.
+  features:
+  - action-bound step-up verification
+  - account recovery flow
+  - login and security-verification history (time, location, device)
+  - step-up browser approval for wallet sends showing amount, asset, recipient, and sending wallet
+  source: https://docs.gokite.ai/changelog/2026/2026-06-04-backend-v1-3-0
+- name: agent-spending-session
+  type: delegated-authority
+  description: >-
+    The agent's credential is a user-approved spending session rather than a long-lived key. A session is
+    bounded by max-amount-per-tx, max-total-amount (USD-denominated caps), a TTL, an allowed asset set,
+    and a payment approach. Sessions can be attached, switched, listed, and have budgets edited.
+  parameters:
+  - max-amount-per-tx
+  - max-total-amount
+  - ttl
+  - assets
+  - payment-approach
+  approval: explicit user approval, awaited via kpass agent:session status --request-id <ID> --wait
+  source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+- name: x402-payment-authorization
+  type: signed-authorization
+  description: Per-request payment proof presented as a base64-encoded signed authorization in the
+    X-PAYMENT header, verified and settled by an x402 facilitator.
+  header: X-PAYMENT
+  encoding: base64
+  source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+- name: eip3009-transfer-authorization
+  type: signed-authorization
+  description: >-
+    Gasless stablecoin transfers are authorized off-chain with an EIP-3009 signature (v, r, s) over a
+    transferWithAuthorization payload carrying from, to, value, validAfter, validBefore, tokenAddress,
+    and a single-use nonce. EIP-712 domain name and version per token are published by
+    GET /supported_tokens.
+  standard: EIP-3009
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- name: mcp-oauth
+  type: oauth2
+  flow: authorization_code
+  description: The hosted Passport MCP endpoint authorizes MCP clients (ChatGPT and others) over OAuth
+    before an agent may discover, pay, and manage sessions.
+  source: https://docs.gokite.ai/changelog/2026/2026-06-23-release
+- name: partner-embed-token
+  type: token
+  description: Embed tokens for partner embedded flows are delivered via URL fragment and resolved with
+    an X-Embed-Token request header (changed from a query parameter).
+  header: X-Embed-Token
+  source: https://docs.gokite.ai/changelog/2026/2026-07-15-release
+scopes:
+  documented: false
+  note: >-
+    A scope-prefix matching fix in the 2026-07-15 release confirms an internal scope model exists, but no
+    public scope or permission reference is published. scopes/ is intentionally not emitted rather than
+    invented.
+related:
+- conventions/kite-conventions.yml
+- cli/kite-cli.yml
