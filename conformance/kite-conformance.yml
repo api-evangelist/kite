@@ -1,0 +1,80 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+summary: >-
+  Kite's conformance surface is protocol and chain standards rather than industry regulatory profiles.
+  It implements the x402 HTTP-402 payment protocol, supports the Stripe/Tempo Machine Payments Protocol,
+  runs an EVM-compatible Avalanche subnet L1, and builds value transfer on EIP-3009 signed
+  authorizations with EIP-712 typed-data domains and ERC-4337 style account abstraction.
+standards:
+- id: x402
+  version: 1
+  conforms: true
+  evidence: Service provider guide documents the 402 challenge envelope, accepts[] payment terms,
+    X-PAYMENT header, and facilitator verify/settle flow; x402Version 1 present in published responses.
+  spec: https://docs.x402.org/introduction
+  reference_implementation: https://github.com/gokite-ai/x402
+- id: mpp
+  name: Machine Payments Protocol (Stripe/Tempo)
+  conforms: true
+  role: supported payment protocol option for service providers
+  evidence: Service provider guide presents MPP as Option 2 alongside x402, with session negotiation
+    selecting the protocol from the service response at runtime.
+  spec: https://mpp.dev/
+- id: eip-3009
+  name: Transfer With Authorization
+  conforms: true
+  evidence: Gasless transfer API accepts from/to/value/validAfter/validBefore/nonce/v/r/s per EIP-3009;
+    facilitator calls transferWithAuthorization to settle.
+- id: eip-712
+  name: Typed structured data hashing and signing
+  conforms: true
+  evidence: GET /supported_tokens publishes eip712_name and eip712_version per token for signature
+    generation.
+- id: evm-json-rpc
+  name: Ethereum JSON-RPC
+  conforms: true
+  evidence: Kite Chain exposes EVM-compatible HTTPS and WSS JSON-RPC endpoints on mainnet chain ID 2366
+    and testnet 2368; registered on ChainList.
+- id: erc-4337
+  name: Account abstraction
+  conforms: true
+  evidence: First-party gokite-aa-sdk npm package and an Account Abstraction SDK developer guide.
+  caveat: The docs describe account abstraction generally; a specific ERC-4337 version claim is not
+    published.
+- id: webauthn
+  name: WebAuthn / passkeys
+  conforms: true
+  evidence: Passkey authentication with action-bound step-up, recovery, and device-named credentials.
+- id: oauth2
+  conforms: true
+  scope: MCP connector authorization only
+  evidence: Hosted Passport MCP endpoint authorizes MCP clients over OAuth.
+- id: mica
+  name: EU Markets in Crypto-Assets whitepaper
+  conforms: partial
+  evidence: Kite publishes a MiCA whitepaper at https://docs.gokite.ai/kite-chain/mica-whitepaper.
+  caveat: Publication of a MiCA whitepaper is a disclosure obligation, not a certification.
+- id: openapi
+  conforms: false
+  evidence: The API Reference page states "Coming soon"; no OpenAPI, Swagger, or GraphQL schema is
+    published on any Kite host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Documented errors use the x402 challenge envelope (error/accepts/x402Version), not
+    application/problem+json.
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document and no public webhook catalog. WSS JSON-RPC endpoints provide standard
+    EVM subscriptions but no Kite-authored event contract is published.
+compliance_program:
+  published: false
+  note: >-
+    Kite publishes a security principles page citing third-party smart-contract audits (Halborn) and
+    independent penetration tests, but states audit reports and pen-test summaries are provided "on
+    demand". No named certification (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP) is published, so no
+    Compliance pointer is emitted.
+  security_page: https://docs.gokite.ai/kite-chain/6-reference
+related:
+- conventions/kite-conventions.yml
+- errors/kite-problem-types.yml

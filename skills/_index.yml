@@ -1,0 +1,57 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+docs: https://docs.gokite.ai/kite-agent-passport/cli-reference
+summary: >-
+  Kite publishes its own bundle of Agent Skills. The Passport installer registers them with the local
+  coding agent (Claude Code, Codex, and others), and they are the provider's supported way for an agent
+  to authenticate a user, discover paid services, request a spending session, and execute paid x402
+  requests. This index records the provider-published catalog verbatim. No pipeline-generated skill
+  markdown is included: Kite publishes no OpenAPI (its API Reference page is an explicit "Coming soon"
+  placeholder), so there are no real operationIds to ground generated skills in, and inventing them
+  would be fabrication.
+distribution:
+  install: curl -fsSL https://agentpassport.ai/install.sh | bash
+  list_installed: npx --yes skills add gokite-ai/passport-skills --list
+  repository: gokite-ai/passport-skills
+  repository_public: false
+  repository_note: The GitHub API returns 404 for gokite-ai/passport-skills; the bundle appears to be
+    distributed through the installer rather than a public repo, and the changelog references it as "the
+    private repository".
+  bundle_version: 1.6.3
+  bundle_number: '40'
+skills:
+- name: authenticate-user
+  description: Sign up or log in a user to Kite Agent Passport.
+  provider_published: true
+- name: kite-discovery
+  description: Search the Kite service catalog for paid services.
+  provider_published: true
+- name: request-session
+  description: Create and approve spending sessions bounded by caps, TTL, and assets.
+  provider_published: true
+  notes: Retries preflight on catalog errors (skills v0.9.1).
+- name: x402-execute
+  description: Execute paid requests against x402 services under an approved session.
+  provider_published: true
+- name: wallet-send
+  description: Perform direct wallet transfers.
+  provider_published: true
+- name: manage-agents
+  description: Register and list agents.
+  provider_published: true
+- name: cloud-deploy
+  description: Provision and deploy a local project to Google Cloud through kpass cloud, taking a project
+    from the local machine to a running cloud deployment.
+  provider_published: true
+  added: '2026-07-01'
+  source: https://docs.gokite.ai/changelog/2026/2026-07-01-release
+skill_runtime_notes:
+- Skill loading is optimized at load time to reduce overhead for agents using multiple skills
+  (2026-06-11).
+- Skills docs and examples were updated for multichain payments and routing (2026-07-08).
+- Skill guidance was updated for catalog-first, multichain workflows (2026-07-15).
+related:
+- cli/kite-cli.yml
+- mcp/kite-mcp.yml
+- conventions/kite-conventions.yml

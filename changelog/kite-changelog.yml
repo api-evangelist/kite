@@ -1,0 +1,146 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/llms/changelog.txt
+docs: https://docs.gokite.ai/changelog
+summary: >-
+  Kite publishes a dated, per-release changelog for the Agent Passport platform, covering the backend,
+  the kpass and ksearch CLIs, the web dashboard, and the agent skills bundle. Releases moved from
+  per-component version posts (backend v1.1.0, cli v1.3.4, web v1.2.0, skills v0.9.1) to consolidated
+  weekly dated releases from 2026-06-11 onward. Entries distinguish New features, Improvements, Bug
+  fixes, and Important updates, and Important updates is where breaking changes and required upgrades
+  are announced.
+versioning:
+  scheme: semver per component, consolidated weekly dated releases
+  components:
+  - name: kpass
+    current: 1.9.0
+  - name: ksearch
+    current: 1.0.6
+  - name: skills
+    current: 1.6.3
+  - name: bundle
+    current: '40'
+  current_release: '2026-07-15'
+  upgrade_command: curl -fsSL https://cli.gokite.ai/install.sh | bash
+window: '2026-05-19 through 2026-07-15 (recent window; the live changelog is the source of truth)'
+entries:
+- date: '2026-07-15'
+  url: https://docs.gokite.ai/changelog/2026/2026-07-15-release
+  breaking: false
+  requires_upgrade: true
+  highlights:
+  - Multi-offer merchant payments complete end to end; Passport parses 402 responses offering multiple
+    payment options and negotiates with the newer session protocol.
+  - Binary merchant responses supported; raw audio/image/video returned as base64 with a CLI --output-file
+    flag.
+  - Deposit via Halliday onramp; deposits appear in the account activity feed.
+  - Vendor information added to API catalog pages.
+  - Fixed a scope-prefix matching bug that could incorrectly match subtree scopes.
+  - Routed payment executes now return a normalized payment_requirement.
+  notes: Requires Bundle 40 (kpass 1.9.0, ksearch 1.0.6, skills 1.6.3).
+- date: '2026-07-08'
+  url: https://docs.gokite.ai/changelog/2026/2026-07-08-release
+  breaking: true
+  requires_upgrade: true
+  highlights:
+  - Cross-chain payment routing - x402 payments can settle on a chain other than the one holding funds,
+    bridging and routing across Base, Tempo, and Solana.
+  - New kpass cloud command group driving the full cloud-project lifecycle.
+  - Redesigned session dashboard with routed-payment timelines.
+  breaking_changes:
+  - Passport now settles on Base for direct-pay and cross-chain routing, replacing the treasury relay
+    path. Integrations that relied on the treasury relay or assumed Kite as the settlement chain must be
+    updated to expect Base settlement.
+  - Mainnet agent wallet USDC balances were bridged 1:1 to each wallet's corresponding Base address.
+  notes: Requires kpass 1.6.0 and skills bundle 35 or later.
+- date: '2026-07-01'
+  url: https://docs.gokite.ai/changelog/2026/2026-07-01-release
+  breaking: false
+  highlights:
+  - Redesigned dashboard built around spending sessions; /dashboard now redirects to /overview and the
+    previous dashboard was retired.
+  - Create and attach spending sessions from the browser.
+  - New cloud-deploy skill provisions and deploys a local project to Google Cloud via kpass cloud.
+  - Editable session budgets; activity categories and per-session filtering.
+  - Clearer merchant payment-decline details - x402 declines now carry a specific decline reason instead
+    of an opaque error.
+- date: '2026-06-23'
+  url: https://docs.gokite.ai/changelog/2026/2026-06-23-release
+  breaking: false
+  highlights:
+  - Hosted MCP endpoint with OAuth - Kite Passport can be added as a connector in ChatGPT and other MCP
+    clients to discover and pay for x402 services and manage spending sessions.
+  - Sandbox test mode - isolated test environment with a testnet wallet and faucet, fully separated from
+    the production account.
+  - Cloud-project provisioning via the kpass cloud project command group.
+  - Step-up browser approval for wallet sends.
+  - Solana settlement for x402 payments.
+  - 13 newly allowlisted x402 catalog hosts spanning media generation, social and web data, file hosting,
+    print-on-demand, travel data, IP geolocation, and crypto data.
+- date: '2026-06-17'
+  url: https://docs.gokite.ai/changelog/2026/2026-06-17-release
+  breaking: false
+  highlights:
+  - Quickstart paths and examples corrected.
+  - Windows installer no longer fails while resolving the latest version.
+- date: '2026-06-11'
+  url: https://docs.gokite.ai/changelog/2026/2026-06-11-release
+  breaking: false
+  highlights:
+  - Step-up verification, passkey management, and account recovery for sensitive actions.
+  - Sign-in and security history with device names and location.
+  - Protocol-agnostic session negotiation - the session layer negotiates the payment protocol from the
+    service response at runtime.
+  - Per-endpoint pricing surfaced in search results.
+  - Agent feedback channel.
+  - kpass and ksearch now send properly identified user-agent headers on outbound requests.
+- date: '2026-06-04'
+  component: backend
+  version: 1.3.0
+  url: https://docs.gokite.ai/changelog/2026/2026-06-04-backend-v1-3-0
+  breaking: false
+  highlights:
+  - Passkey security overhaul - action-bound step-up for high-risk operations, recovery flow, login
+    history with first-passkey risk holds, and USD-denominated session caps.
+- date: '2026-05-28'
+  component: cli
+  version: 1.3.21
+  url: https://docs.gokite.ai/changelog/2026/2026-05-28-cli-v1-3-21
+  breaking: false
+  highlights:
+  - Automated changelog GitHub Actions workflow and dependency bumps. No user-facing changes.
+- date: '2026-05-27'
+  component: cli
+  version: 1.3.20
+  url: https://docs.gokite.ai/changelog/2026/2026-05-27-cli-1-3-20
+  breaking: false
+  highlights:
+  - New kpass feedback submit command for programmatic reporting of issues and suggestions.
+- date: '2026-05-19'
+  component: backend
+  version: 1.1.0
+  url: https://docs.gokite.ai/changelog/2026/2026-05-19-backend-v1-1-0
+  breaking: false
+  highlights:
+  - Merchant fee estimates in session preflight.
+- date: '2026-05-19'
+  component: web
+  version: 1.2.0
+  url: https://docs.gokite.ai/changelog/2026/2026-05-19-web-v1-2-0
+  breaking: false
+  highlights:
+  - Estimated fees shown on session approval.
+- date: '2026-05-19'
+  component: cli
+  version: 1.3.4
+  url: https://docs.gokite.ai/changelog/2026/2026-05-19-cli-v1-3-4
+  breaking: false
+  highlights:
+  - Filter activity by date and merchant.
+- date: '2026-05-19'
+  component: skills
+  version: 0.9.1
+  url: https://docs.gokite.ai/changelog/2026/2026-05-19-skills-v0-9-1
+  breaking: false
+  highlights:
+  - request-session skill retries preflight on catalog errors.

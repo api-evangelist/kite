@@ -1,0 +1,100 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/kite-chain/1-getting-started/network-information
+docs:
+- https://docs.gokite.ai/kite-chain/1-getting-started/network-information
+- https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+- https://docs.gokite.ai/kite-chain/9-gasless-integration
+summary: >-
+  Kite separates test from production at the chain level rather than with key prefixes: a distinct
+  testnet L1 (chain ID 2368) with its own RPC endpoint, faucet, block explorer, and token contracts,
+  mirroring mainnet (chain ID 2366). All values below are published verbatim in the Kite docs.
+environments:
+- name: testnet
+  chain_name: KiteAI Testnet
+  chain_id: 2368
+  rpc: https://rpc-testnet.gokite.ai/
+  explorer: https://testnet.kitescan.ai/
+  native_token: KITE
+  chainlist: https://chainlist.org/chain/2368
+- name: mainnet
+  chain_name: KiteAI Mainnet
+  chain_id: 2366
+  rpc: https://rpc.gokite.ai/
+  rpc_regional:
+  - https://rpc-virginia.gokite.ai
+  - https://rpc-tokyo.gokite.ai
+  - https://rpc-ireland.gokite.ai
+  rpc_websocket:
+  - wss://rpc.gokite.ai/ws
+  - wss://rpc-virginia.gokite.ai/ws
+  - wss://rpc-tokyo.gokite.ai/ws
+  - wss://rpc-ireland.gokite.ai/ws
+  explorer: https://kitescan.ai/
+  native_token: KITE
+  chainlist: https://chainlist.org/chain/2366
+faucets:
+- name: Kite testnet faucet
+  url: https://faucet.gokite.ai
+  network: testnet
+- name: Passport CLI faucet
+  command: kpass faucet drop --recipient <WALLET_ADDRESS> --token USDC --output json
+  network: testnet
+  source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+test_tokens:
+- symbol: PYUSD
+  network: testnet
+  address: '0x8E04D099b1a8Dd20E6caD4b2Ab2B405B98242ec9'
+  decimals: 18
+  eip712_name: PYUSD
+  eip712_version: '1'
+  minimum_transfer_amount: '10000000000000000'
+  self_mint: true
+  self_mint_note: The testnet PYUSD contract exposes claim and claimTo write methods, verified on testnet
+    Kitescan, so developers can mint their own test balance.
+  explorer: https://testnet.kitescan.ai/address/0x8E04D099b1a8Dd20E6caD4b2Ab2B405B98242ec9?tab=read_write_contract
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- symbol: USDC.e
+  name: Bridged USDC (Kite AI)
+  network: mainnet
+  address: '0x7aB6f3ed87C42eF0aDb67Ed95090f8bF5240149e'
+  decimals: 6
+  eip712_name: Bridged USDC (Kite AI)
+  eip712_version: '2'
+  minimum_transfer_amount: '10000'
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- symbol: x402 test payment token
+  network: kite-testnet
+  address: '0x0fF5393387ad2f9f691FD6Fd28e07E3969e27e63'
+  explorer: https://testnet.kitescan.ai/token/0x0fF5393387ad2f9f691FD6Fd28e07E3969e27e63
+  note: Token used by testnet x402 services on Kite.
+  source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+sample_services:
+- name: Weather Service (x402 testnet demo)
+  url: https://x402.dev.gokite.ai/api/weather
+  example_request: curl "https://x402.dev.gokite.ai/api/weather?location=San%20Francisco"
+  behavior: Returns 402 Payment Required with an accepts[] payment-terms array until an X-PAYMENT header
+    is supplied.
+  pay_to: '0x4A50DCA63d541372ad36E5A36F1D542d51164F19'
+  source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+facilitator:
+  name: Pieverse Facilitator
+  version: 2.0.0
+  base_url: https://facilitator.pieverse.io
+  docs: https://facilitator.pieverse.io/
+  testnet_address: '0x12343e649e6b2b2b77649DFAb88f103c02F3C78b'
+  endpoints:
+  - method: POST
+    path: /v2/verify
+    description: Verify payment signature.
+  - method: POST
+    path: /v2/settle
+    description: Settle payment (execute on-chain).
+  source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+testing_walkthrough:
+- Set up a Passport account.
+- Fund the account with testnet tokens using the faucet.
+- Create an agent and approve a spending session.
+- Point the agent at the service endpoint.
+- Verify the service returns the correct 402 response.
+- Confirm payment is processed and the service delivers the response.

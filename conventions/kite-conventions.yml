@@ -1,0 +1,118 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+docs:
+- https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+- https://docs.gokite.ai/kite-chain/9-gasless-integration
+- https://docs.gokite.ai/kite-agent-passport/cli-reference
+summary: >-
+  Kite's cross-cutting semantics are protocol-level rather than REST-framework-level. Payment negotiation
+  follows x402 over HTTP 402 (with MPP as a second supported protocol), value transfer is authorized with
+  EIP-3009 signed authorizations, and agent authority is bounded by user-approved spending sessions.
+  Kite publishes no OpenAPI (its API Reference page is an explicit "Coming soon" placeholder), so the
+  conventions below are drawn from the prose docs, not derived from a spec.
+authentication:
+  style: Passkey and email one-time code for the human principal; session-scoped delegated authority for
+    the agent; EIP-3009/x402 signed payment authorizations for value transfer.
+  detail: authentication/kite-authentication.yml
+idempotency:
+  supported: true
+  mechanism: nonce
+  description: >-
+    Replay protection is enforced with single-use nonces rather than an Idempotency-Key header. Every
+    EIP-3009 gasless transfer authorization carries a unique nonce, and the docs state each nonce can only
+    be used once - resubmitting the same signed authorization cannot move funds twice. Authorizations are
+    additionally bounded by validAfter/validBefore timestamps.
+  fields:
+  - name: nonce
+    location: request body
+    description: Unique nonce for this transfer; each nonce can only be used once.
+  - name: validAfter
+    location: request body
+    description: Timestamp after which the authorization is valid; must exceed the latest block timestamp.
+  - name: validBefore
+    location: request body
+    description: Timestamp before which the transfer must execute; transfers are only accepted within 30
+      seconds of the current time.
+  scope: per signed authorization, per token contract
+  standard: EIP-3009 (transferWithAuthorization)
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+payment_negotiation:
+  protocols:
+  - id: x402
+    version: 1
+    description: HTTP 402-based payment protocol with on-chain settlement.
+    challenge_status: 402
+    challenge_envelope:
+      error: string, e.g. "X-PAYMENT header is required"
+      x402Version: integer
+      accepts: array of payment-terms objects
+    accepts_fields:
+    - scheme
+    - network
+    - maxAmountRequired
+    - resource
+    - description
+    - mimeType
+    - outputSchema
+    - payTo
+    - maxTimeoutSeconds
+    - asset
+    - extra
+    - merchantName
+    payment_header: X-PAYMENT
+    payment_header_encoding: base64-encoded signed authorization
+    settlement: facilitator POST /v2/verify then POST /v2/settle
+    spec: https://docs.x402.org/introduction
+  - id: mpp
+    name: Machine Payments Protocol
+    description: Open standard co-authored by Stripe and Tempo; extends the 402 pattern with multiple
+      payment methods, session-based billing, and built-in payment channels over HTTP, JSON-RPC, and
+      WebSocket.
+    spec: https://mpp.dev/
+authority_model:
+  unit: spending session
+  description: >-
+    An agent cannot spend freely. The user approves a session bounded by a per-transaction cap, a total
+    cap, a TTL, an allowed asset set, and a payment approach. High-risk operations require action-bound
+    step-up authentication, and session caps are denominated in USD.
+  parameters:
+  - max-amount-per-tx
+  - max-total-amount
+  - ttl
+  - assets
+  - payment-approach
+  source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+service_description:
+  mechanism: x402 outputSchema
+  description: >-
+    x402 payment terms carry an outputSchema object describing the service's input (method, query
+    parameters with type/required/default/enum) and output (JSON Schema style properties and required
+    fields), plus a discoverable flag. This is Kite's in-band substitute for a published OpenAPI contract.
+discovery:
+  mechanism: Kite service catalog
+  interface: ksearch services list / ksearch services get
+  filters: [query, payment-approach, asset, limit]
+  export: ksearch export markdown --output-dir ./.kite/catalog
+agent_output:
+  json_flag: --output json
+  non_interactive_flag: --no-interactive
+  note: Both CLIs are explicitly designed for agent drivers, with machine-readable output and a no-prompt
+    mode.
+versioning:
+  scheme: per-component semantic versioning
+  components: [backend, cli, web, skills]
+  detail: lifecycle/kite-lifecycle.yml
+error_envelope:
+  detail: errors/kite-problem-types.yml
+  format: x402 402 challenge object; not RFC 9457 problem+json
+rate_limiting:
+  documented: false
+  note: No rate-limit headers or quota policy were found in the published docs. Economic throttling is
+    expressed through session spend caps rather than request-rate limits.
+related:
+- authentication/kite-authentication.yml
+- errors/kite-problem-types.yml
+- lifecycle/kite-lifecycle.yml
+- sandbox/kite-sandbox.yml
+- conformance/kite-conformance.yml

@@ -1,0 +1,52 @@
+generated: '2026-07-19'
+method: searched
+source: https://registry.npmjs.org/gokite-aa-sdk
+notes: >-
+  Kite's registry footprint is small. The Account Abstraction SDK is published to npm as a first-party
+  package. The Kite Agent Passport CLIs (kpass, ksearch) are NOT distributed through a public package
+  registry at the time of this pass - the documented installation path is a shell installer script - so
+  they are recorded here as a distribution entry rather than a registry package. npm lookups for kpass,
+  ksearch, @gokite-ai/kpass, @gokite/kpass, and @gokite-ai/passport-cli all returned 404.
+packages:
+- language: javascript
+  registry: npm
+  name: gokite-aa-sdk
+  version: 1.0.15
+  description: Simple and clean Account Abstraction SDK for Gokite.
+  url: https://www.npmjs.com/package/gokite-aa-sdk
+  install: npm install gokite-aa-sdk
+  docs: https://docs.gokite.ai/kite-chain/5-advanced/account-abstraction-sdk
+  official: true
+  last_published: '2026-02-27'
+distributions:
+- name: Kite Agent Passport (kpass + ksearch)
+  method: install-script
+  install: curl -fsSL https://agentpassport.ai/install.sh | bash
+  docs: https://docs.gokite.ai/kite-agent-passport
+  official: true
+  note: Installs the Passport CLIs and registers the Passport agent skills with the local coding agent.
+    Not published to a public package registry.
+registries_probed:
+- registry: npm
+  result: 1 official package (gokite-aa-sdk); kpass/ksearch not present
+- registry: pypi
+  result: no first-party package identified
+- registry: pkg.go.dev
+  result: no first-party module identified (org GitHub repos are Avalanche/subnet-evm forks)
+- registry: rubygems
+  result: none
+- registry: packagist
+  result: none
+- registry: crates.io
+  result: none
+- registry: maven-central
+  result: none
+- registry: nuget
+  result: none
+source_code:
+- url: https://github.com/gokite-ai
+  description: GoKite.ai GitHub organization - chain tooling, sample dApps, AP2 and x402 reference work.
+- url: https://github.com/gokite-ai/x402
+  description: Kite x402 reference implementation (referenced from the service provider guide).
+- url: https://github.com/gokite-ai/developer-docs
+  description: Kite Developer Docs source.

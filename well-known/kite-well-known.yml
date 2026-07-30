@@ -1,0 +1,40 @@
+generated: '2026-07-19'
+method: searched
+source: live probe of /.well-known/ paths on the Kite web and docs hosts
+result: none
+summary: >-
+  No /.well-known/ discovery documents are published on either the marketing host or the docs host.
+  Every probed path returned 404 (HTML not-found body). Recorded as valid negative data; no
+  SecurityTxt artifact is emitted because none exists.
+hosts:
+- host: https://gokite.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://docs.gokite.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+agent_discovery_alternatives:
+- path: /llms.txt
+  host: https://docs.gokite.ai
+  status: 200
+  file: ../llms/kite-llms.txt
+  note: Kite's agent-facing discovery is served through llms.txt (with per-collection shards and an MCP
+    endpoint) rather than /.well-known/.

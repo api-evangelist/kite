@@ -1,0 +1,78 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+format: x402
+format_note: >-
+  Kite does not use RFC 9457 application/problem+json. The one fully documented error contract is the
+  x402 402 Payment Required challenge, which is a payment-terms envelope rather than a problem document.
+  Kite publishes no OpenAPI, so no additional 4xx/5xx catalog could be derived from a spec - only
+  documented errors are recorded here.
+envelope:
+  fields:
+  - name: error
+    type: string
+    description: Human-readable reason the request was not fulfilled.
+  - name: accepts
+    type: array
+    description: Payment terms the service will accept, one entry per acceptable scheme/network/asset.
+  - name: x402Version
+    type: integer
+    description: x402 protocol version (currently 1).
+problems:
+- status: 402
+  code: payment-required
+  title: Payment Required
+  detail: The request reached a paid service without a valid X-PAYMENT header. The response body carries
+    the accepts[] payment terms the agent must satisfy.
+  example_error: X-PAYMENT header is required
+  remediation: Obtain a signed payment authorization from the user's approved spending session and resend
+    the request with the X-PAYMENT header (base64-encoded authorization).
+  protocol: x402
+  source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+failure_modes:
+- id: authorization-not-yet-valid
+  surface: gasless transfer
+  description: validAfter is not greater than the latest block timestamp of the target Kite network, so
+    the transaction simulation fails.
+  remediation: Set validAfter relative to current chain time.
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- id: authorization-expired
+  surface: gasless transfer
+  description: Transfers are only accepted within 30 seconds of the current time; a validBefore outside
+    that window is rejected.
+  remediation: Sign and submit the authorization within the 30-second acceptance window.
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- id: nonce-reused
+  surface: gasless transfer
+  description: Each EIP-3009 nonce can only be used once; a repeated nonce cannot settle again.
+  remediation: Generate a fresh random nonce per authorization. This is also the replay/idempotency
+    guarantee - see conventions/kite-conventions.yml.
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- id: unsupported-token
+  surface: gasless transfer
+  description: tokenAddress must be listed in the GET /supported_tokens response for the target network.
+  remediation: Call GET /supported_tokens and use a listed contract address.
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- id: below-minimum-transfer
+  surface: gasless transfer
+  description: Each supported token declares a minimum_transfer_amount in the token's smallest unit.
+  remediation: Transfer at or above the token's published minimum.
+  source: https://docs.gokite.ai/kite-chain/9-gasless-integration
+- id: payment-timeout
+  surface: x402
+  description: Payment terms declare maxTimeoutSeconds (300 in the reference service); settlement must
+    complete inside that window.
+  remediation: Complete verification and settlement before the declared timeout.
+  source: https://docs.gokite.ai/kite-agent-passport/service-provider-guide
+- id: session-cap-exceeded
+  surface: Agent Passport
+  description: A paid request that would exceed the session's per-transaction cap, total cap, or USD
+    session cap cannot be executed under that session.
+  remediation: Request a new session with appropriate caps and obtain user approval.
+  source: https://docs.gokite.ai/kite-agent-passport/cli-reference
+notes:
+- Kite Chain JSON-RPC surfaces standard Ethereum JSON-RPC error objects (code/message/data); these are
+  inherited from the EVM, not defined by Kite, and are not catalogued here.
+related:
+- conventions/kite-conventions.yml
+- sandbox/kite-sandbox.yml

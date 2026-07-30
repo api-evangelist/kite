@@ -1,0 +1,59 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.gokite.ai/changelog
+versioning:
+  scheme: semver per component, shipped as consolidated weekly dated releases
+  components:
+    kpass: 1.9.0
+    ksearch: 1.0.6
+    skills: 1.6.3
+    bundle: '40'
+  current_release: '2026-07-15'
+  docs: https://docs.gokite.ai/changelog
+  note: The chain itself is versioned by network (mainnet chain ID 2366, testnet 2368) rather than by an
+    API version path; the gasless relayer selects network by request path (/mainnet, /testnet).
+upgrade:
+  command: curl -fsSL https://cli.gokite.ai/install.sh | bash
+  policy: Releases that require a minimum CLI or skills-bundle version announce it under an "Important
+    updates" heading in the changelog entry.
+  recent_requirements:
+  - release: '2026-07-15'
+    requires: Bundle 40 (kpass 1.9.0, ksearch 1.0.6, skills 1.6.3)
+  - release: '2026-07-08'
+    requires: kpass 1.6.0 and skills bundle 35 or later
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: unknown
+  note: >-
+    No formal deprecation or sunset policy, and no RFC 8594 Deprecation/Sunset header support, is
+    documented. Retirements are announced in-line in changelog "Important updates". Because no policy
+    page exists, no Deprecation pointer is emitted.
+  observed_retirements:
+  - item: Legacy dashboard
+    release: '2026-07-01'
+    detail: /dashboard now redirects to /overview; the previous dashboard was retired.
+  - item: Treasury relay settlement path
+    release: '2026-07-08'
+    detail: Replaced by direct Base settlement; integrations assuming Kite as the settlement chain must
+      be updated.
+    breaking: true
+  - item: Embed token via query parameter
+    release: '2026-07-15'
+    detail: Embed tokens now pass via URL fragment and resolve with an X-Embed-Token header.
+    breaking: true
+status_page: https://status.gokite.ai/
+status_page_title: Kite Status - Uptime Monitoring
+sla:
+  url: null
+  published: false
+  note: No published uptime target or SLA document was found.
+support:
+  feedback_channel: kpass feedback submit
+  note: Agents can submit feedback programmatically from the CLI (added in CLI v1.3.20).
+deprecated_operations: []
+deprecated_operations_note: No OpenAPI is published, so no deprecated operations could be derived from a
+  spec.
+related:
+- changelog/kite-changelog.yml
+- conventions/kite-conventions.yml

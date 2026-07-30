@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: searched
+status: published
+source: https://docs.gokite.ai/llms.txt
+servers:
+- name: kite-docs
+  description: Read-only MCP server over the Kite developer documentation corpus, advertised in the
+    published llms.txt Endpoints block.
+  transport: http
+  url: https://docs.gokite.ai/mcp
+  access: read-only
+  probe:
+    method: GET
+    status: 405
+    note: 405 Method Not Allowed on GET is expected for a streamable-HTTP MCP endpoint that accepts POST.
+  source: https://docs.gokite.ai/llms.txt
+- name: kite-passport
+  description: >-
+    Hosted MCP endpoint with OAuth that lets Kite Passport be added as a connector in ChatGPT and other
+    MCP clients. Once connected and authorized, an agent can discover and pay for x402 services and
+    create and list spending sessions directly from the chat client. Shipped in the 2026-06-23 release.
+  transport: http
+  auth: oauth
+  url: null
+  status: published
+  capabilities:
+  - Discover x402 services from the Kite catalog
+  - Pay for x402 services under an approved spending session
+  - Create spending sessions
+  - List spending sessions
+  note: The changelog announces this hosted endpoint and its OAuth connector flow, but does not publish
+    the endpoint URL in the docs corpus. URL left null rather than invented; connect via the client's
+    connector UI.
+  source: https://docs.gokite.ai/changelog/2026/2026-06-23-release
+- name: kite-air
+  description: Kite MCP server described in the Kite AIR platform docs as a universal integration layer
+    letting any MCP-compatible AI application access Kite's agent identity and settlement infrastructure.
+  transport: http
+  url: null
+  status: documented
+  note: The docs describe this server and an MCP work mode for developers, but no public hosted endpoint
+    URL was published at the time of this pass. Not fabricating a URL.
+  source: https://docs.gokite.ai/kite-air-platform/kite-air-getting-started
+related_surfaces:
+- name: Kite Agent Passport skills
+  description: The Passport install flow registers agent skills with the local coding agent, which is the
+    primary agent-facing integration path alongside MCP.
+  url: skills/_index.yml
+tools: []
+tools_note: >-
+  No tool manifest is published for either server, and Kite publishes no OpenAPI (its API Reference page
+  is an explicit "Coming soon" placeholder), so there is no spec to derive a candidate tool list from.
+  Tools are intentionally left empty rather than invented.
