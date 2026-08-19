@@ -4,8 +4,8 @@ status: published
 source: https://docs.gokite.ai/llms.txt
 servers:
 - name: kite-docs
-  description: Read-only MCP server over the Kite developer documentation corpus, advertised in the
-    published llms.txt Endpoints block.
+  description: Read-only MCP server over the Kite developer documentation corpus, advertised in the published
+    llms.txt Endpoints block.
   transport: http
   url: https://docs.gokite.ai/mcp
   access: read-only
@@ -15,10 +15,9 @@ servers:
     note: 405 Method Not Allowed on GET is expected for a streamable-HTTP MCP endpoint that accepts POST.
   source: https://docs.gokite.ai/llms.txt
 - name: kite-passport
-  description: >-
-    Hosted MCP endpoint with OAuth that lets Kite Passport be added as a connector in ChatGPT and other
-    MCP clients. Once connected and authorized, an agent can discover and pay for x402 services and
-    create and list spending sessions directly from the chat client. Shipped in the 2026-06-23 release.
+  description: Hosted MCP endpoint with OAuth that lets Kite Passport be added as a connector in ChatGPT
+    and other MCP clients. Once connected and authorized, an agent can discover and pay for x402 services
+    and create and list spending sessions directly from the chat client. Shipped in the 2026-06-23 release.
   transport: http
   auth: oauth
   url: null
@@ -43,11 +42,15 @@ servers:
   source: https://docs.gokite.ai/kite-air-platform/kite-air-getting-started
 related_surfaces:
 - name: Kite Agent Passport skills
-  description: The Passport install flow registers agent skills with the local coding agent, which is the
-    primary agent-facing integration path alongside MCP.
+  description: The Passport install flow registers agent skills with the local coding agent, which is
+    the primary agent-facing integration path alongside MCP.
   url: skills/_index.yml
 tools: []
-tools_note: >-
-  No tool manifest is published for either server, and Kite publishes no OpenAPI (its API Reference page
-  is an explicit "Coming soon" placeholder), so there is no spec to derive a candidate tool list from.
-  Tools are intentionally left empty rather than invented.
+tools_note: No tool manifest is published for either server, and Kite publishes no OpenAPI (its API Reference
+  page is an explicit "Coming soon" placeholder), so there is no spec to derive a candidate tool list
+  from. Tools are intentionally left empty rather than invented.
+deployment:
+  mode: unclear
+  verified: searched
+  checked: '2026-08-12'
+  source: catalog MCP census
