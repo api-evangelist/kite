@@ -8,6 +8,17 @@ description: Kite (gokite.ai, formerly Zettablock) builds agentic payment infras
   public HTTPS and WSS JSON-RPC endpoints, a stablecoin gasless transfer relayer built on EIP-3009 signed
   authorizations, and an x402 HTTP-402 payment surface with support for the Stripe/Tempo Machine Payments
   Protocol (MPP). Kite raised an $18M Series A led by PayPal Ventures and General Catalyst in September 2025.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
