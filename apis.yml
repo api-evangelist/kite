@@ -39,7 +39,7 @@ x-backed-by:
 - general-catalyst
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-10-06'
 tags:
 - Agentic Payments
 - AI Agents
@@ -108,6 +108,10 @@ apis:
   - type: Design
     url: https://docs.gokite.ai/kite-chain/8-kite-stablecoin/stablecoin-gasless-transfer
 common:
+- url: https://medium.com/@KiteAI
+  type: Blog
+- url: https://medium.com/feed/@KiteAI
+  type: BlogRSS
 - type: Website
   url: https://gokite.ai/
 - type: DeveloperPortal
