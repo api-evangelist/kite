@@ -98,6 +98,12 @@ apis:
   baseURL: https://gasless.gokite.ai
   tags:
   - Stablecoins
+  - Gasless Transactions
+  - EIP-3009
+  - Payments
+  - REST
+  tags_raw:
+  - Stablecoins
   - Gasless
   - EIP-3009
   - Payments
