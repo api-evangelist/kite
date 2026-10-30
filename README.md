@@ -64,33 +64,101 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Kite (gokite.ai, formerly Zettablock) builds agentic payment infrastructure for the machine-to-machine
-economy. Kite Agent Passport gives autonomous AI agents their own identity, a funded wallet, user-set
-spending rules, delegated payment authority, and verifiable on-chain receipts — driven from a coding
-agent through the `kpass` and `ksearch` CLIs and a bundle of published Passport agent skills.
+Kite (gokite.ai, formerly Zettablock) builds agentic payment infrastructure for the machine-to-machine economy. Kite Agent Passport gives autonomous AI agents their own identity, a funded wallet, user-set spending rules, delegated payment authority, and verifiable on-chain receipts, driven from a coding agent through the kpass and ksearch CLIs and a set of published Passport agent skills. Kite also operates Kite Chain, an EVM-compatible Avalanche-subnet Layer 1 (mainnet chain ID 2366, testnet 2368) with public HTTPS and WSS JSON-RPC endpoints, a stablecoin gasless transfer relayer built on EIP-3009 signed authorizations, and an x402 HTTP-402 payment surface with support for the Stripe/Tempo Machine Payments Protocol (MPP). Kite raised an $18M Series A led by PayPal Ventures and General Catalyst in September 2025.
 
-Kite also operates Kite Chain, an EVM-compatible Avalanche-subnet Layer 1 (mainnet chain ID 2366,
-testnet 2368), a stablecoin gasless transfer relayer built on EIP-3009 signed authorizations, and an
-x402 HTTP-402 payment surface with support for the Stripe/Tempo Machine Payments Protocol (MPP).
+**Areas:** Agentic Payments · AI Agents · x402 · Stablecoins · Blockchain · EVM · Layer 1 · Machine-to-Machine · Identity · Payments · JSON-RPC · Account Abstraction
 
-Backed by: general-catalyst (also PayPal Ventures — $18M Series A, September 2025)
+## Kite on APIs.io
 
-## APIs
+Everything profiled for Kite is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kite/](https://apis.io/providers/kite/)** — or go straight to one of the APIs or properties below.
 
-| API | Base URL |
-| --- | --- |
-| Kite Chain JSON-RPC (Mainnet) | https://rpc.gokite.ai/ |
-| Kite Chain JSON-RPC (Testnet) | https://rpc-testnet.gokite.ai/ |
-| Kite Stablecoin Gasless Transfer API | https://gasless.gokite.ai |
+### APIs (3)
 
-## Artifacts
+- [Kite Chain JSON-RPC (Mainnet)](https://apis.io/apis/kite/kite-chain-mainnet/) — EVM-compatible JSON-RPC interface for Kite Chain mainnet (chain ID 2366, native token KITE), available over HTTPS and WSS from a global endpoint plus…
+- [Kite Chain JSON-RPC (Testnet)](https://apis.io/apis/kite/kite-chain-testnet/) — EVM-compatible JSON-RPC interface for Kite Chain testnet (chain ID 2368), paired with a public faucet and the testnet Kitescan block explorer for…
+- [Kite Stablecoin Gasless Transfer API](https://apis.io/apis/kite/kite-gasless-transfer/) — REST relayer that executes stablecoin transfers on behalf of users who hold no native gas token, authorized off-chain with EIP-3009 signed authorizations.…
 
-`llms/` `mcp/` `cli/` `packages/` `skills/` `changelog/` `lifecycle/` `conventions/`
-`authentication/` `errors/` `conformance/` `sandbox/` `well-known/` `security/`
+### Published properties
 
-## Notes
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Kite publishes **no OpenAPI** — its API Reference page is an explicit "Coming soon" placeholder — so
-no `openapi/`, `overlays/`, `scopes/`, `data-model/`, or generated agent-skill markdown are present.
-Its agent-facing discovery runs through `llms.txt` (with per-collection shards and an MCP endpoint)
-rather than `/.well-known/`, all of which returned 404.
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [kite-mcp.yml](https://apis.io/servers/kite/kite-mcp-yml/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Kite Authentication](https://apis.io/security/kite/kite-authentication/)
+- [Kite Domain Security](https://apis.io/security/kite/kite-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://gokite.ai/)
+- [Documentation](https://docs.gokite.ai/)
+- [Getting started](https://docs.gokite.ai/get-started)
+- [API reference](https://docs.gokite.ai/kite-chain/9-gasless-integration)
+- [Sign up](https://agentpassport.ai/)
+- [Blog](https://medium.com/@KiteAI)
+- [Terms of service](https://gokite.ai/terms)
+- [Privacy policy](https://gokite.ai/privacy)
+- [GitHub](https://github.com/gokite-ai)
+- [Status](https://status.gokite.ai/)
+
+## API Evangelist rating
+
+**Kin Score 33.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 76.7 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 73.8 |
+| Access clarity | 21.1 |
+
+**Agent readiness 15.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.3** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kite/](https://apis.io/providers/kite/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Kite: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kite/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
